@@ -79,7 +79,18 @@ inline bool List<T>::insert(const T& value, int index)
 }
 
 template<typename T>
+inline bool List<T>::remove(const T& value, int index)
+{
+	return false;
+}
+
+template<typename T>
 inline void List<T>::print() const
+{
+}
+
+template<typename T>
+inline void List<T>::initialize()
 {
 }
 
