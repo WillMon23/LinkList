@@ -1,5 +1,6 @@
 #pragma once
 #include "Iterator.h"
+#include 
 
 
 template <typename T>
@@ -47,18 +48,31 @@ inline void List<T>::destroy()
 template<typename T>
 inline Iterator<T> List<T>::begin() const
 {
-	return Iterator<T>();
+	m_head->previous = nullptr;
+	Iterator<T> temp = Iterator<T>(m_head);
+	return temp;
 }
 
 template<typename T>
 inline Iterator<T> List<T>::end() const
 {
-	return Iterator<T>();
+	m_tail->previous = nullptr;
+	Iterator<T> temp = Iterator<T>(m_tail);
+	return temp;
 }
 
 template<typename T>
 inline bool List<T>::contains(const T object) const
 {
+	Iterator<T> temp = Iterator<T>();
+	temp = begin();
+
+	while (temp != end())
+	{
+		if (temp* == object)
+			return true;
+		temp++;
+	}
 	return false;
 }
 
@@ -87,6 +101,7 @@ inline bool List<T>::remove(const T& value, int index)
 template<typename T>
 inline void List<T>::print() const
 {
+
 }
 
 template<typename T>
@@ -97,7 +112,8 @@ inline void List<T>::initialize()
 template<typename T>
 inline bool List<T>::isEmpty() const
 {
-	return false;
+	if(begin() == nullptr)
+		return false;
 }
 
 template<typename T>

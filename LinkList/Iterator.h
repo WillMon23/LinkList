@@ -19,7 +19,7 @@ template<typename T>
 inline Iterator<T> Iterator<T>::operator++()
 {
 	Iterator<T> temp = Iterator<T>();
-	temp.m_current->next;
+	 temp.m_current = m_current->next;
 	return temp;
 }
 
@@ -27,25 +27,27 @@ template<typename T>
 inline Iterator<T> Iterator<T>::operator--()
 {
 	Iterator<T> temp = Iterator<T>();
-	temp.m_current->previous;
+	temp.m_current = m_current->previous;
 	return temp;
 }
 
 template<typename T>
 inline bool Iterator<T>::operator==(const Iterator<T>& iter) const
 {
-
-	return false;
+	if (iter.m_current->data == m_current->data)
+		return true;
+	
 }
 
 template<typename T>
 inline bool Iterator<T>::operator!=(const Iterator<T>& iter) const
 {
-	return false;
+	if(iter.m_current->data == m_current->data)
+		return false;
 }
 
 template<typename T>
 inline T Iterator<T>::operator*()
 {
-	return T();
+	return	m_current->data;
 }

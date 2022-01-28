@@ -3,10 +3,10 @@ template <typename T>
 class Node {
 public:
 	Node();
-	Node(T value);
+	Node(T value) { data = value; };
 
 public:
 	Node<T>* next;
 	Node<T>* previous;
-	T date;
+	T data;
 };
