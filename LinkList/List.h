@@ -1,6 +1,6 @@
 #pragma once
 #include "Iterator.h"
-#include 
+#include <iostream>
 
 
 template <typename T>
@@ -18,7 +18,7 @@ public:
 	void pushFront(const T& value);
 	void pushBack(const T& value);
 	bool insert(const T& value, int index);
-	bool remove(const T& value, int index);
+	bool remove(const T& value);
 	void print() const;
 	void initialize();
 	bool isEmpty()const;
@@ -37,12 +37,20 @@ private:
 template<typename T>
 inline List<T>::List(const List<T>&)
 {
+	m_head = nullptr;
+	m_tail = nullptr;
+	m_nodeCount = 0;
 }
 
 template<typename T>
 inline void List<T>::destroy()
 {
+	Node<T>* currentNode = m_head;
 
+	while (currentNode != m_tail)
+	{
+		
+	}
 }
 
 template<typename T>
@@ -64,12 +72,11 @@ inline Iterator<T> List<T>::end() const
 template<typename T>
 inline bool List<T>::contains(const T object) const
 {
-	Iterator<T> temp = Iterator<T>();
-	temp = begin();
+	Iterator<T> temp = begin();
 
 	while (temp != end())
 	{
-		if (temp* == object)
+		if (*temp == object)
 			return true;
 		temp++;
 	}
@@ -79,29 +86,74 @@ inline bool List<T>::contains(const T object) const
 template<typename T>
 inline void List<T>::pushFront(const T& value)
 {
+	Node<T>* temp = new Node<T>(value);
+
+	if (m_head->previous != nullptr)
+		m_head->previous = temp;
+
+	begin();
 }
 
 template<typename T>
 inline void List<T>::pushBack(const T& value)
 {
+	m_tail->next = new Node<T>(value);
+	end();
 }
 
 template<typename T>
 inline bool List<T>::insert(const T& value, int index)
 {
-	return false;
+	Node<T>* currentNode = m_head;
+	Node<T>* insertedNode = new Node<T>(value);
+	
+	for (int i = 0; i < index; i++)
+	{
+		if (currentNode->next != nullptr)
+			currentNode = currentNode->next;
+		else
+			return false;
+	}
+
+
+	insertedNode->next = currentNode;
+	insertedNode->previous = currentNode->previous;
+	currentNode->previous->next = insertedNode;
+
+	return true;
 }
 
 template<typename T>
-inline bool List<T>::remove(const T& value, int index)
+inline bool List<T>::remove(const T& value)
 {
+	Node<T>* currentNode = m_head;
+
+	while (currentNode->data != value)
+	{
+		if (currentNode->next != nullptr)
+			currentNode = currentNode->next;
+		else
+			return false;
+	}
+
+
+	currentNode->previous->next = currentNode->next;
+	currentNode->next->previous = currentNode->previous;
+
+	delete currentNode;
+
 	return false;
 }
 
 template<typename T>
 inline void List<T>::print() const
 {
-
+	Node<T>* currentNode = m_head;
+	while (currentNode->next != nullptr)
+	{
+		std::cout << currentNode->data << std::endl;
+		currentNode = currentNode->next;
+	}
 }
 
 template<typename T>

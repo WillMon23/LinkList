@@ -2,8 +2,8 @@
 template <typename T>
 class Node {
 public:
-	Node();
-	Node(T value) { data = value; };
+	Node() { data = 0, next = nullptr, previous = nullptr; };
+	Node(T value) { data = value, next = nullptr, previous = nullptr; };
 
 public:
 	Node<T>* next;
