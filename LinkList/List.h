@@ -7,7 +7,7 @@ template <typename T>
 class List {
 public:
 	List() {};
-	List(const List<T>&);
+	List(const List<T>& other);
 	~List() {};
 
 public:
@@ -35,11 +35,10 @@ private:
 };
 
 template<typename T>
-inline List<T>::List(const List<T>&)
+inline List<T>::List(const List<T>& other)
 {
-	m_head = nullptr;
-	m_tail = nullptr;
-	m_nodeCount = 0;
+	other.begin();
+	other.end();
 }
 
 template<typename T>
@@ -56,17 +55,15 @@ inline void List<T>::destroy()
 template<typename T>
 inline Iterator<T> List<T>::begin() const
 {
-	m_head->previous = nullptr;
-	Iterator<T> temp = Iterator<T>(m_head);
-	return temp;
+	if(m_head->previous == nullptr)
+		return Iterator<T>(m_head);
 }
 
 template<typename T>
 inline Iterator<T> List<T>::end() const
 {
-	m_tail->previous = nullptr;
-	Iterator<T> temp = Iterator<T>(m_tail);
-	return temp;
+	if(m_tail->next == nullptr)
+		return Iterator<T>(m_tail);
 }
 
 template<typename T>
@@ -86,19 +83,24 @@ inline bool List<T>::contains(const T object) const
 template<typename T>
 inline void List<T>::pushFront(const T& value)
 {
-	Node<T>* temp = new Node<T>(value);
-
-	if (m_head->previous != nullptr)
-		m_head->previous = temp;
-
-	begin();
+	Node<T>* pushInsert = new Node<T>(value);
+	if (m_head == nullptr)
+		m_head = pushInsert;
+	else
+	{
+		m_head->previous = pushInsert;
+		pushInsert->next = m_head;
+		m_head = pushInsert;
+	}
 }
 
 template<typename T>
 inline void List<T>::pushBack(const T& value)
 {
-	m_tail->next = new Node<T>(value);
-	end();
+	Node<T>* pushInsert = new Node<T>(value);
+	pushInsert->previous = m_tail;
+	m_tail = pushInsert;
+	m_tail->next = pushInsert;
 }
 
 template<typename T>
@@ -108,17 +110,12 @@ inline bool List<T>::insert(const T& value, int index)
 	Node<T>* insertedNode = new Node<T>(value);
 	
 	for (int i = 0; i < index; i++)
-	{
-		if (currentNode->next != nullptr)
-			currentNode = currentNode->next;
-		else
-			return false;
-	}
+		currentNode = currentNode->next;
+	
+	insertedNode->previous = insertedNode->previous;
 
-
+	currentNode->previous = insertedNode;
 	insertedNode->next = currentNode;
-	insertedNode->previous = currentNode->previous;
-	currentNode->previous->next = insertedNode;
 
 	return true;
 }
@@ -151,7 +148,10 @@ inline void List<T>::print() const
 	Node<T>* currentNode = m_head;
 	while (currentNode->next != nullptr)
 	{
-		std::cout << currentNode->data << std::endl;
+		if (currentNode == nullptr)
+			std::cout << currentNode->data << std::endl;
+		else
+			std::cout << "Empty ptr" << std::endl;
 		currentNode = currentNode->next;
 	}
 }
@@ -159,6 +159,9 @@ inline void List<T>::print() const
 template<typename T>
 inline void List<T>::initialize()
 {
+	m_head = nullptr;
+	m_tail = nullptr;
+	m_nodeCount = 0;
 }
 
 template<typename T>
