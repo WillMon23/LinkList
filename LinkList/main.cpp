@@ -5,14 +5,13 @@ void main() {
 
 	
 
-	list->insert(10, 2);
-	list->insert(10, 2);
-	list->insert(10, 2);
-	list->insert(10, 2);
-	list->insert(10, 2);
+	list->pushFront(10);
+	list->pushFront(10);
+	list->pushFront(10);
+	list->pushFront(10);
 	list->insert(100, 2);
 	
-	//list->pushBack(100);
+	list->pushBack(100);
 
 	list->print();
 }

@@ -3,7 +3,7 @@
 template <typename T>
 class Iterator {
 public:
-	Iterator();
+	Iterator() { m_current = new Node<T>(0); };
 	Iterator(Node<T>* node) { m_current = node; };
 	Iterator<T> operator++();
 	Iterator<T> operator--();
@@ -18,31 +18,26 @@ private:
 template<typename T>
 inline Iterator<T> Iterator<T>::operator++()
 {
-	Iterator<T> temp = Iterator<T>();
-	 temp.m_current = m_current->next;
-	return temp;
+	return m_current = m_current->next;
 }
 
 template<typename T>
 inline Iterator<T> Iterator<T>::operator--()
-{
-	Iterator<T> temp = Iterator<T>();
-	temp.m_current = m_current->previous;
-	return temp;
+{	
+	return m_current = m_current->previous;
 }
 
 template<typename T>
 inline bool Iterator<T>::operator==(const Iterator<T>& iter) const
 {
-	if (iter.m_current->data == m_current->data)
-		return true;
-	
+	if (iter.m_current == m_current)
+		return true;	
 }
 
 template<typename T>
 inline bool Iterator<T>::operator!=(const Iterator<T>& iter) const
 {
-	if(iter.m_current->data == m_current->data)
+	if(iter.m_current != m_current)
 		return false;
 }
 
