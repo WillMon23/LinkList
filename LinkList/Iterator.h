@@ -30,15 +30,25 @@ inline Iterator<T> Iterator<T>::operator--()
 template<typename T>
 inline bool Iterator<T>::operator==(const Iterator<T>& iter) const
 {
-	if (iter.m_current == m_current)
-		return true;	
+	if (iter.m_current == nullptr && m_current == nullptr)
+		return true;
+
+	else if (iter.m_current == nullptr || m_current == nullptr)
+		return false;
+
+	return (iter.m_current == m_current);
 }
 
 template<typename T>
 inline bool Iterator<T>::operator!=(const Iterator<T>& iter) const
 {
-	if(iter.m_current != m_current)
+	if (iter.m_current == nullptr && m_current == nullptr)
 		return false;
+
+	else if (iter.m_current == nullptr || m_current == nullptr)
+		return true;
+
+	return (iter.m_current != m_current);	
 }
 
 template<typename T>

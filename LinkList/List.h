@@ -163,8 +163,8 @@ inline void List<T>::print() const
 	while (iter != end())
 	{
 		std::cout << *iter << std::endl;
+		++iter;
 	}
-
 	std::cout << "Node Count: " << m_nodeCount << std::endl;
 }
 
