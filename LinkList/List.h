@@ -136,29 +136,34 @@ inline bool List<T>::insert(const T& value, int index)
 			currentNode = currentNode->next;
 	}
 
-	if (currentNode->next == nullptr)
+	if (currentNode->previous == nullptr)
 	{
-		pushFront(value);
-		return true;
+		insertedNode->previous = currentNode->previous;
+		insertedNode->next = currentNode;
+		currentNode->previous = insertedNode;
+		m_head = insertedNode;
+
 	}
 
-	else if (currentNode->previous == nullptr)
+	else if (currentNode->next == nullptr)
 	{
-		pushBack(value);
-		return true;
+		insertedNode->next = currentNode->next;
+		insertedNode->previous = currentNode;
+
+		currentNode->next = insertedNode;
+		m_tail = insertedNode;
 	}
 
 	else
 	{
-		insertedNode->previous = currentNode;
-		insertedNode->next = currentNode->next;
-		currentNode->next->previous = insertedNode;
+		insertedNode->next = currentNode;
+		insertedNode->previous = currentNode->previous;
 		currentNode->previous->next = insertedNode;
 		currentNode->previous = insertedNode;
 	}
 
 	m_nodeCount++;
-	return (currentNode->previous->data == insertedNode->data);
+	return true;
 }
 
 template<typename T>
