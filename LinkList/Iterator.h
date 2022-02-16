@@ -3,7 +3,7 @@
 template <typename T>
 class Iterator {
 public:
-	Iterator() { m_current = new Node<T>(0); };
+	Iterator() { m_current = new Node<T>(T); };
 	Iterator(Node<T>* node) { m_current = node; };
 	Iterator<T> operator++();
 	Iterator<T> operator--();

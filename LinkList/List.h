@@ -129,12 +129,16 @@ inline bool List<T>::insert(const T& value, int index)
 		m_tail = insertedNode;
 		return false;
 	}
+
+	if (index >= getLength())
+	{
+		pushBack(value);
+		delete insertedNode;
+		return false;
+	}
 	
 	for (int i = 0; i < index; i++)
-	{
-		if (currentNode->next != nullptr)
-			currentNode = currentNode->next;
-	}
+		currentNode = currentNode->next;
 
 	if (currentNode->previous == nullptr)
 	{
@@ -143,15 +147,6 @@ inline bool List<T>::insert(const T& value, int index)
 		currentNode->previous = insertedNode;
 		m_head = insertedNode;
 
-	}
-
-	else if (currentNode->next == nullptr)
-	{
-		insertedNode->next = currentNode->next;
-		insertedNode->previous = currentNode;
-
-		currentNode->next = insertedNode;
-		m_tail = insertedNode;
 	}
 
 	else
@@ -170,22 +165,49 @@ template<typename T>
 inline bool List<T>::remove(const T& value)
 {
 	Node<T>* currentNode = m_head;
+	int count = 0;
 
+	if (isEmpty())
+		return false;
 	while (currentNode->data != value)
 	{
-		if (currentNode->next != nullptr)
-			currentNode = currentNode->next;
-		else
+		currentNode = currentNode->next;
+
+		if (count > getLength())
+			break;
+		count++;
+
+		if (currentNode == nullptr)
 			return false;
 	}
 
+	if (currentNode->next == nullptr)
+	{
+		currentNode->previous->next = nullptr;
+		m_tail = currentNode->previous;
+	}
 
-	currentNode->previous->next = currentNode->next;
-	currentNode->next->previous = currentNode->previous;
 
+	else if (currentNode->previous == nullptr)
+	{
+		currentNode->next->previous = nullptr;
+		m_head = currentNode->next;
+	}
+
+
+	else
+	{
+		currentNode->previous->next = currentNode->next;
+		currentNode->next->previous = currentNode->previous;
+	}
+
+	
+
+	m_nodeCount--;
 	delete currentNode;
+	currentNode = nullptr;
 
-	return false;
+	return true;
 }
 
 template<typename T>
@@ -217,6 +239,9 @@ inline bool List<T>::isEmpty() const
 template<typename T>
 inline bool List<T>::getData(Iterator<T>& iter, int index)
 {
+	for (int i = 0; i < index; i++)
+		++iter;
+
 	return false;
 }
 
