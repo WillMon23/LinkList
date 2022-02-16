@@ -24,7 +24,7 @@ public:
 	bool isEmpty()const;
 	bool getData(Iterator<T>& iter, int index);
 	int getLength() const { return m_nodeCount; };
-	List<T>& operator=(const List<T>& otherList) const;
+	const List<T>& operator=(const List<T>& otherList);
 	void sort();
 
 private:
@@ -45,12 +45,8 @@ inline List<T>::List(const List<T>& other)
 template<typename T>
 inline void List<T>::destroy()
 {
-	Node<T>* currentNode = m_head;
-
-	while (currentNode != m_tail->next)
-	{
-		
-	}
+	delete m_head, m_tail;
+	initialize();
 }
 
 template<typename T>
@@ -239,6 +235,7 @@ inline bool List<T>::isEmpty() const
 template<typename T>
 inline bool List<T>::getData(Iterator<T>& iter, int index)
 {
+	iter = begin();
 	for (int i = 0; i < index; i++)
 		++iter;
 
@@ -246,9 +243,18 @@ inline bool List<T>::getData(Iterator<T>& iter, int index)
 }
 
 template<typename T>
-inline List<T>& List<T>::operator=(const List<T>& otherList) const
+inline const List<T>& List<T>::operator=(const List<T>& otherList)
 {
-	// TODO: insert return statement here
+	destroy();
+	List<T>* newList = new List<T>();
+
+	Iterator<T> iter = begin();
+	while (iter != end())
+	{
+		pushFront(*iter);
+		++iter;
+	}
+	return *this;
 }
 
 template<typename T>
