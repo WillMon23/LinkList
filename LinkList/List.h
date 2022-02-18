@@ -11,8 +11,23 @@ public:
 	~List() {};
 
 public:
+	/// <summary>
+	/// Meant to destroy what reamins in the m_head node
+	/// as well whats in the m_tail as well as reseting the 
+	/// the m_nodeCount to zero 
+	/// </summary>
 	void destroy();
+
+	/// <summary>
+	/// Alocates the start of the Iteration with 
+	/// </summary>
+	/// <returns></returns>
 	Iterator<T> begin() const;
+
+	/// <summary>
+	/// Alocates the the end node to the Iterator
+	/// </summary>
+	/// <returns></returns>
 	Iterator<T> end() const;
 	bool contains(const T object) const;
 	void pushFront(const T& value);
@@ -260,26 +275,22 @@ inline const List<T>& List<T>::operator=(const List<T>& otherList)
 template<typename T>
 inline void List<T>::sort()
 {
-	Node<T>* key = m_head->next;
-	Node<T>* currentNode;
+	Node<T>* keyNode = m_head;
 
-	while (key != nullptr)
+	
+	while (keyNode != nullptr)
 	{
-		currentNode = key->previous;
-
-		while (currentNode->previous == nullptr && currentNode->data > key->data)
+		Node<T>* currentNode = keyNode->next;
+		while (currentNode != nullptr)
 		{
-			if (currentNode->data > key->data)
+			T key = keyNode->data;
+			if (currentNode->data <= key)
 			{
-				currentNode->next = currentNode;
-
-				if (currentNode->previous == nullptr)
-					break;
-
-				currentNode = currentNode->previous;
+				keyNode->data = currentNode->data;
+				currentNode->data = key;
 			}
-			currentNode->next = key;
+			currentNode = currentNode->next;
 		}
-		key = key;
+		keyNode = keyNode->next;
 	}
 }
