@@ -260,4 +260,26 @@ inline const List<T>& List<T>::operator=(const List<T>& otherList)
 template<typename T>
 inline void List<T>::sort()
 {
+	Node<T>* key = m_head->next;
+	Node<T>* currentNode;
+
+	while (key != nullptr)
+	{
+		currentNode = key->previous;
+
+		while (currentNode->previous == nullptr && currentNode->data > key->data)
+		{
+			if (currentNode->data > key->data)
+			{
+				currentNode->next = currentNode;
+
+				if (currentNode->previous == nullptr)
+					break;
+
+				currentNode = currentNode->previous;
+			}
+			currentNode->next = key;
+		}
+		key = key;
+	}
 }
