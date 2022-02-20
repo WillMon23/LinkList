@@ -5,13 +5,39 @@ class Iterator {
 public:
 	Iterator() { m_current = new Node<T>(T); };
 	Iterator(Node<T>* node) { m_current = node; };
+
+	/// <summary>
+	/// overloads the plus plus oprator
+	/// It'll instead change the current node to be it's next node 
+	/// When applicable
+	/// <summary>
 	Iterator<T> operator++();
+
+	/// <summary>
+	/// overloads the minus minus oprator
+	/// It'll instead change the current node to be it's previous node 
+	/// When applicable
+	/// <summary>
 	Iterator<T> operator--();
+
+	/// <summary>
+	/// Overloads the equals equals oporator 
+	/// It'll instead comapre current nodes in itoration
+	/// <summary>
 	bool operator==(const Iterator<T>& iter) const;
+
+	/// Overloads the not equals oporator 
+	/// It'll instead comapre current nodes in itoration
+	/// <summary>
 	bool operator!=(const Iterator<T>& iter) const;
+
+	/// Overloads the star oporator 
+	/// It'll instead display the data in that current node 
+	/// <summary>
 	T operator*();
 
 private:
+	// preivate current node 
 	Node<T>* m_current;
 };
 
@@ -30,25 +56,32 @@ inline Iterator<T> Iterator<T>::operator--()
 template<typename T>
 inline bool Iterator<T>::operator==(const Iterator<T>& iter) const
 {
+	//if the itorated nodes are both equaled to nullpree
 	if (iter.m_current == nullptr && m_current == nullptr)
+		//return true
 		return true;
-
+	//but if the current node equals null or the the other node equals nullptr
 	else if (iter.m_current == nullptr || m_current == nullptr)
+		//return false
 		return false;
-
-	return (iter.m_current == m_current);
+	//If both nodes data are the same 
+	return (iter.m_current->data == m_current->data);
 }
 
 template<typename T>
 inline bool Iterator<T>::operator!=(const Iterator<T>& iter) const
 {
+	//if the itorated nodes are both equaled to nullpree
 	if (iter.m_current == nullptr && m_current == nullptr)
+		//return false
 		return false;
-
+	//but if the current node equals null or the the other node equals nullptr
 	else if (iter.m_current == nullptr || m_current == nullptr)
+		//return true
 		return true;
 
-	return (iter.m_current != m_current);	
+	//if the data for both node are diffrent 
+	return (iter.m_current->data != m_current->data);	
 }
 
 template<typename T>
