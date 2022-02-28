@@ -8,7 +8,7 @@ class List {
 public:
 	List() { initialize(); };
 	List(const List<T>& other);
-	~List() {};
+	~List() { delete m_head, m_tail; };
 
 public:
 	/// <summary>
@@ -328,12 +328,18 @@ inline bool List<T>::remove(const T& value)
 template<typename T>
 inline void List<T>::print() const
 {
+	//Creata new iterator that starts at the beginning 
 	Iterator<T> iter = begin();
+	//While the iter does not equal that of a nullptr
 	while (iter != nullptr)
 	{
+		//TESTiING PERPOSES//
+		//Prints out the itor
 		std::cout << *iter << std::endl;
+		//Then it incraments to the next one 
 		++iter;
 	}
+	//Print how the count is in the list
 	std::cout << "Node Count: " << m_nodeCount << std::endl;
 }
 
@@ -354,10 +360,23 @@ inline bool List<T>::isEmpty() const
 template<typename T>
 inline bool List<T>::getData(Iterator<T>& iter, int index)
 {
+	//Sets th iterator to to start at the beginning
 	iter = begin();
-	for (int i = 0; i < index; i++)
+	int iterCounter = 0;
+	//While the iterator is not equal to nullptr
+	while (iter != nullptr)
+	{
+		//Go to the next itrator
 		++iter;
-
+		//add one to the iterator counter
+		iterCounter++;
+		//if the iterCounter is the same to the index being feed 
+		if (iterCounter == index)
+			//then return true
+			//Then just leave the funtion
+			return true;
+	}
+	//Other wise it's false;
 	return false;
 }
 
@@ -375,8 +394,9 @@ inline const List<T>& List<T>::operator=(const List<T>& otherList)
 	//While it's not at the end 
 	while (iter != end())
 	{
+		T data = *iter;
 		//Push the data to the beginning of the lsit 
-		pushFront(*iter);
+		pushFront(data);
 		//Goes to the next node in the itoration
 		++iter;
 	}

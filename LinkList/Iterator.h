@@ -3,7 +3,7 @@
 template <typename T>
 class Iterator {
 public:
-	Iterator() { m_current = new Node<T>(T); };
+	Iterator() { m_current = new Node<T>(); };
 	Iterator(Node<T>* node) { m_current = node; };
 
 	/// <summary>
@@ -44,13 +44,23 @@ private:
 template<typename T>
 inline Iterator<T> Iterator<T>::operator++()
 {
-	return m_current = m_current->next;
+	//if the current node is not a nullptr 
+	if(m_current != nullptr)
+		//To the next node on the list
+		return m_current = m_current->next;
+	// if not it just returns a new iterator
+	return Iterator<T>();
 }
 
 template<typename T>
 inline Iterator<T> Iterator<T>::operator--()
 {	
-	return m_current = m_current->previous;
+	//If the current node does not equal a nullptr 
+	if (m_current != nullptr)
+		//To the prevois node on the list
+		return m_current = m_current->previous;
+	// if not it just returns a new iterator
+	return Iterator<T>();
 }
 
 template<typename T>
@@ -87,5 +97,6 @@ inline bool Iterator<T>::operator!=(const Iterator<T>& iter) const
 template<typename T>
 inline T Iterator<T>::operator*()
 {
+	//Current data in the node 
 	return	m_current->data;
 }

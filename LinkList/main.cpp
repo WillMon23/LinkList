@@ -6,7 +6,7 @@ int main() {
 
 	List<int>* list2 = new List<int>();
 	
-	list->insert(1, -1);
+	
 	list->pushFront(3);
 	list->pushFront(2);
 	list->pushFront(5);
@@ -15,8 +15,16 @@ int main() {
 	list->pushFront(10);
 	list->pushFront(23);
 	list->pushFront(10);
+	list->remove(23);
+	list->remove(1);
+	list->remove(2);
+	list->remove(3);
 	list->pushFront(11);
 	list->pushFront(15);
+	list->insert(123, 9);
+	list->insert(123, 9);
+	list->insert(123, 9);
+	list->pushFront(77);
 
 	list2 = list;
 
@@ -25,7 +33,7 @@ int main() {
 
 	list->print();
 
-	list->remove(33);
+	list2->remove(123);
 
 	list->sort();
 
