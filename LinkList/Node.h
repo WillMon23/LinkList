@@ -2,8 +2,6 @@
 template <typename T>
 class Node {
 public:
-
-
 	//Storage Container For my Data 
 	Node() { data = 0, next = nullptr, previous = nullptr; };
 	~Node() {};
